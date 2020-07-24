@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
+import AnimalCard from './components/AnimalCard.js';
 
 const URL = process.env.REACT_APP_BE_URL || 'http://localhost:4000';
 
@@ -8,14 +9,25 @@ export class App extends Component {
     super (props)
     this.state = {
       data: null,
-      URL: URL
+      URL: URL,
+      viewData: null
     }
+    this.viewDetails = this.viewDetails.bind(this);
   }
   async getData () {
     const data = await fetch(this.state.URL);
     const JSONData = await data.json();
+    console.log(JSONData);
     this.setState ({
-      data: JSONData
+      data: JSONData,
+      viewData: JSONData
+    })
+  }
+  viewDetails (index) {
+    const data = await fetch(`${this.state.URL}/:${index}`);
+    const JSONData = await data.json();
+    this.setState({
+      viewDetails: JSONData
     })
   }
   componentDidMount () {
@@ -29,7 +41,7 @@ export class App extends Component {
     } else {
       return (
         <div className="App">
-          <h1>{this.state.data[0].name}</h1>
+          <AnimalCard data={this.state.viewData[0]} viewDetails={this.viewDetails} />
         </div>
       );
     }
