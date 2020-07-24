@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import './App.css';
 
+const URL = process.env.REACT_APP_BE_URL || 'http://localhost:4000';
+
 export class App extends Component {
   constructor (props) {
     super (props)
     this.state = {
       data: null,
-      URL: 'http://localhost:4000'
+      URL: URL
     }
   }
   async getData () {
