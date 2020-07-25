@@ -1,13 +1,26 @@
 import React, {Component} from 'react';
+import AnimalDetailsModal from './AnimalDetailsModal';
 
 export class AnimalCard extends Component {
     constructor (props) {
         super(props)
+        this.state = {
+            viewDetailsModal: false
+        }
         this.viewDetails = this.viewDetails.bind(this);
     }
     viewDetails (e) {
-        const index = e.target.id;
-        this.props.viewDetails(index)
+        if (this.state.viewDetailsModal === false) {
+            const index = e.target.id;
+            this.props.viewDetails(index);
+            this.setState({
+                viewDetailsModal: true
+            })
+        } else {
+            this.setState({
+                viewDetailsModal: false
+            })
+        }
     }
     render() {
         return (
@@ -18,15 +31,15 @@ export class AnimalCard extends Component {
                 <h5>{this.props.data.dob}</h5>
                 <h5>{this.props.data.gender}</h5>
                 <button onClick={this.viewDetails} id={this.props.data._id}>View Details</button>
-                {/* {(this.props.data.isSterilised) ? <input type='checkbox' checked/> : <input type='checkbox'/>}
-                <p>Sterilised</p>
-                {(this.props.data.isMicrochipped) ? <input type='checkbox' checked/> : <input type='checkbox'/>}
-                <p>Microchipped</p>
-                {(this.props.data.isVaccinated) ? <input type='checkbox' checked/> : <input type='checkbox'/>}
-                <p>Vacinated</p>
-                {(this.props.data.isHDBApproved) ? <input type='checkbox' checked/> : <input type='checkbox'/>}
-                <p>HDB Approved</p>
-                <p>{this.props.data.description}</p> */}
+                {(this.state.viewDetailsModal === true) ?
+                <AnimalDetailsModal 
+                    isSterilised= {this.props.data.isSterilised} 
+                    isMicrochipped={this.props.data.isMicrochipped}
+                    isVaccinated = {this.props.data.isVaccinated}
+                    isHDBApproved = {this.props.data.isHDBApproved}
+                    description = {this.props.data.description}
+                    /> : <div></div>
+                } 
             </div>
         )
     }

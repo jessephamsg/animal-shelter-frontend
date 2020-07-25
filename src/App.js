@@ -23,8 +23,8 @@ export class App extends Component {
       viewData: JSONData
     })
   }
-  viewDetails (index) {
-    const data = await fetch(`${this.state.URL}/:${index}`);
+  async viewDetails (index) {
+    const data = await fetch(`${this.state.URL}/${index}`);
     const JSONData = await data.json();
     this.setState({
       viewDetails: JSONData
@@ -41,7 +41,9 @@ export class App extends Component {
     } else {
       return (
         <div className="App">
-          <AnimalCard data={this.state.viewData[0]} viewDetails={this.viewDetails} />
+          <AnimalCard 
+            data={this.state.viewData[0]} 
+            viewDetails={this.viewDetails} />
         </div>
       );
     }
